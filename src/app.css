@@ -1,0 +1,73 @@
+@import 'tailwindcss';
+
+/* ── myterm design tokens — default: preto + amarelo ─────────────────────── */
+:root {
+  --bg: #0d0d0d;
+  --fg: #f5c518;
+  --cursor: #f5c518;
+  --dim: #1c1c1c;
+  --cyan: #f5c518;
+  --accent: #f5c518;
+  --red: #e03c3c;
+  --green: #4ec94e;
+  --yellow: #f5c518;
+  --blue: #5c9dff;
+  --magenta: #c44ef5;
+  --br-red: #f57272;
+  --br-green: #72f572;
+  --br-yellow: #ffd94e;
+  --br-blue: #72a0f5;
+  --br-magenta: #d472f5;
+  --br-black: #444444;
+}
+
+/* ── Base ─────────────────────────────────────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+html, body {
+  background: var(--bg);
+  color: var(--fg);
+  font-family: 'Cascadia Code', 'Fira Code', 'JetBrains Mono', ui-monospace, monospace;
+  font-size: 15px;
+  line-height: 1.6;
+  transition: background 0.35s ease, color 0.35s ease;
+  scroll-behavior: smooth;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ── Scrollbar ────────────────────────────────────────────────────────────── */
+::-webkit-scrollbar          { width: 4px; }
+::-webkit-scrollbar-track    { background: transparent; }
+::-webkit-scrollbar-thumb    { background: var(--dim); border-radius: 99px; }
+::-webkit-scrollbar-thumb:hover { background: var(--br-black); }
+
+/* ── Typography helpers ───────────────────────────────────────────────────── */
+.mono  { font-family: inherit; }
+.glow  { text-shadow: 0 0 12px color-mix(in srgb, var(--accent) 50%, transparent); }
+.dim   { color: var(--br-black); }
+
+/* ── Scanline overlay ─────────────────────────────────────────────────────── */
+.scanlines {
+  position: relative;
+}
+.scanlines::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: repeating-linear-gradient(
+    0deg,
+    transparent 0px,
+    transparent 3px,
+    rgba(0,0,0,0.06) 3px,
+    rgba(0,0,0,0.06) 4px
+  );
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* ── Color utilities ──────────────────────────────────────────────────────── */
+.text-accent   { color: var(--accent); }
+.text-dim      { color: var(--br-black); }
+.text-green    { color: var(--green); }
+.text-cyan     { color: var(--cyan); }
+.text-red      { color: var(--red); }
