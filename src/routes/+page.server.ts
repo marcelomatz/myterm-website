@@ -8,8 +8,8 @@ const BASE_RELEASE = `https://github.com/${GITHUB_REPO}/releases/download/${FALL
 
 // Fallbacks estáticos para a v0.2.0 — usados quando a API não responder
 const FALLBACK_URLS = {
-	// O asset do instalador NSIS gerado pelo Wails chama-se myterm-windows-amd64-installer.exe
-	installerUrl: `${BASE_RELEASE}/myterm-windows-amd64-installer.exe`,
+	// Usa o exe portátil como fallback do instalador (o NSIS pode não estar em todas as releases)
+	installerUrl: `${BASE_RELEASE}/myterm-windows-amd64.exe`,
 
 	windowsUrl: `${BASE_RELEASE}/myterm-windows-amd64.exe`,
 	macosUrl: `${BASE_RELEASE}/myterm-macos-universal.dmg`,
@@ -43,12 +43,14 @@ function extractUrls(data: Release) {
 	const a = data.assets;
 	const find = (pred: (n: string) => boolean) => a.find((x) => pred(x.name));
 
-	const installerAsset =
-		find((n) => n.includes('installer') && n.endsWith('.exe')) ?? null;
 	const windowsAsset =
 		find((n) => n.includes('windows') && n.endsWith('.exe') && !n.includes('installer')) ??
 		find((n) => n.endsWith('.exe') && !n.includes('installer')) ??
 		null;
+	// Instalador NSIS — se não existir na release, usa o exe portátil
+	const installerAsset =
+		find((n) => n.includes('installer') && n.endsWith('.exe')) ??
+		windowsAsset;
 	const macosAsset = find((n) => n.includes('macos') && n.endsWith('.dmg')) ?? null;
 	const macosZipAsset = find((n) => n.includes('macos') && n.endsWith('.zip')) ?? null;
 	const linuxAsset = find((n) => n.includes('linux') && n.endsWith('.tar.gz')) ?? null;
