@@ -11,19 +11,35 @@
       </thead>
       <tbody>
         <tr><td>New Tab</td><td><kbd>Ctrl</kbd>+<kbd>T</kbd></td></tr>
-        <tr><td>Close Tab</td><td><kbd>Ctrl</kbd>+<kbd>W</kbd></td></tr>
         <tr><td>Next Tab</td><td><kbd>Ctrl</kbd>+<kbd>Tab</kbd></td></tr>
-        <tr><td>Prev Tab</td><td><kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>Tab</kbd></td></tr>
-        <tr><td>Split Horizontal</td><td><kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>E</kbd></td></tr>
-        <tr><td>Split Vertical</td><td><kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>O</kbd></td></tr>
-        <tr><td>Close Pane</td><td><kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>W</kbd></td></tr>
-        <tr><td>Copy</td><td><kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>C</kbd></td></tr>
-        <tr><td>Paste</td><td><kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>V</kbd></td></tr>
-        <tr><td>Font +</td><td><kbd>Ctrl</kbd>+<kbd>=</kbd></td></tr>
-        <tr><td>Font −</td><td><kbd>Ctrl</kbd>+<kbd>-</kbd></td></tr>
-        <tr><td>Font Reset</td><td><kbd>Ctrl</kbd>+<kbd>0</kbd></td></tr>
-        <tr><td>Settings</td><td><kbd>Ctrl</kbd>+<kbd>,</kbd></td></tr>
-        <tr><td>Find</td><td><kbd>Ctrl</kbd>+<kbd>F</kbd></td></tr>
+        <tr
+          ><td>Prev Tab</td><td
+            ><kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>Tab</kbd></td
+          ></tr
+        >
+        <tr
+          ><td>Split Horizontal</td><td
+            ><kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>E</kbd></td
+          ></tr
+        >
+        <tr
+          ><td>Split Vertical</td><td
+            ><kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>O</kbd></td
+          ></tr
+        >
+        <tr
+          ><td>Close Pane</td><td
+            ><kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>W</kbd></td
+          ></tr
+        >
+        <tr
+          ><td>Copy</td><td><kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>C</kbd></td
+          ></tr
+        >
+        <tr
+          ><td>Paste</td><td><kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>V</kbd></td
+          ></tr
+        >
       </tbody>
     </table>
   </div>
@@ -73,7 +89,9 @@
   .kb-table tr:hover td {
     background: color-mix(in srgb, var(--dim) 30%, transparent);
     color: var(--accent);
-    transition: background 0.15s, color 0.15s;
+    transition:
+      background 0.15s,
+      color 0.15s;
   }
   .kb-table td:last-child {
     text-align: right;
