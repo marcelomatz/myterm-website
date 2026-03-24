@@ -1,36 +1,42 @@
 <script lang="ts">
-  import TerminalBanner from '$lib/components/TerminalBanner.svelte';
-  import TerminalMock from '$lib/components/TerminalMock.svelte';
-  import ThemePicker from '$lib/components/ThemePicker.svelte';
-  import PillarCard from '$lib/components/PillarCard.svelte';
-  import KeyboardShortcuts from '$lib/components/KeyboardShortcuts.svelte';
+  import TerminalBanner from "$lib/components/TerminalBanner.svelte";
+  import TerminalMock from "$lib/components/TerminalMock.svelte";
+  import ThemePicker from "$lib/components/ThemePicker.svelte";
+  import PillarCard from "$lib/components/PillarCard.svelte";
+  import KeyboardShortcuts from "$lib/components/KeyboardShortcuts.svelte";
+  import type { PageData } from "./$types";
+
+  let { data }: { data: PageData } = $props();
 
   const PILLARS = [
     {
-      icon: '⌨',
-      title: 'Teclado primeiro',
-      body: '14 atalhos cobrem tudo — abrir tabs, dividir painéis, copiar, colar, buscar, ajustar fonte. Nenhuma mão sai do teclado.',
+      icon: "⌨",
+      title: "Teclado primeiro",
+      body: "8 atalhos cobrem tudo — abrir tabs, dividir painéis, copiar, colar. Nenhuma mão sai do teclado.",
     },
     {
-      icon: '▪',
-      title: 'Zero dependências',
-      body: 'Um único .exe de 15 MB. Sem Node, sem Chromium, sem instalador. Baixa, executa, trabalha.',
+      icon: "▪",
+      title: "Zero dependências",
+      body: "Um único .exe de 15 MB. Sem Node, sem Chromium, sem instalador. Baixa, executa, trabalha.",
     },
     {
-      icon: '$',
-      title: 'Qualquer shell',
-      body: 'Detecta o shell padrão automaticamente. PowerShell, bash, zsh, cmd — todos funcionam. Troca por sessão.',
+      icon: "$",
+      title: "Qualquer shell",
+      body: "Detecta o shell padrão automaticamente. PowerShell, bash, zsh, cmd — todos funcionam. Troca por sessão.",
     },
   ];
 </script>
 
 <svelte:head>
   <title>myTerm — Um terminal que respeita seu tempo</title>
-  <meta name="description" content="Terminal emulator para Windows. Go + Wails. Um único .exe de 15 MB, inicia em menos de 0.3s." />
+  <meta
+    name="description"
+    content="Terminal emulator para Windows. Go + Wails. Um único .exe de 15 MB, inicia em menos de 0.3s."
+  />
 </svelte:head>
 
 <!-- ── HERO ─────────────────────────────────────────────────────────────── -->
-<TerminalBanner />
+<TerminalBanner version={data.version} releaseUrl={data.installerUrl ?? data.releaseUrl} />
 
 <!-- ── DEMO ──────────────────────────────────────────────────────────────── -->
 <section class="section" id="demo">
@@ -46,6 +52,44 @@
 <section class="section section-ruled" id="features">
   <div class="inner">
     <h2 class="section-title">Features</h2>
+
+    <!-- plataforma -->
+    <div class="platform-row">
+      <span
+        class="platform-badge windows"
+        title="Disponível agora para Windows"
+      >
+        <svg
+          width="13"
+          height="13"
+          viewBox="0 0 88 88"
+          fill="currentColor"
+          aria-hidden="true"
+          ><path
+            d="M0 12.402l35.687-4.86.016 34.318-35.67.203zm35.67 33.529.028 34.344L.028 75.48.026 45.7zm4.326-38.691L87.314 0v41.527l-47.318.376zm47.329 39.26-.011 41.34-47.318-6.678-.066-34.739z"
+          /></svg
+        >
+        Windows 10+
+      </span>
+      <span class="platform-soon" title="Linux e macOS em desenvolvimento">
+        <svg
+          width="12"
+          height="12"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          aria-hidden="true"
+          ><circle cx="12" cy="12" r="10" /><polyline
+            points="12 6 12 12 16 14"
+          /></svg
+        >
+        Linux &amp; macOS — em breve
+      </span>
+    </div>
+
     <div class="pillars">
       {#each PILLARS as p}
         <PillarCard icon={p.icon} title={p.title} body={p.body} />
@@ -54,11 +98,26 @@
 
     <!-- features extras discretas -->
     <ul class="extras">
-      <li><span class="bullet">·</span> Split horizontal e vertical (Ctrl+Shift+E / Ctrl+Shift+O)</li>
-      <li><span class="bullet">·</span> Tabs ilimitadas por janela (Ctrl+T / Ctrl+W)</li>
-      <li><span class="bullet">·</span> Copy on select opcional</li>
+      <li>
+        <span class="bullet">·</span> Split horizontal <kbd>Ctrl+Shift+E</kbd> e
+        vertical <kbd>Ctrl+Shift+O</kbd>
+      </li>
+      <li>
+        <span class="bullet">·</span> Tabs com <kbd>Ctrl+T</kbd> · navegar com
+        <kbd>Ctrl+Tab</kbd>
+        / <kbd>Ctrl+Shift+Tab</kbd>
+      </li>
+      <li>
+        <span class="bullet">·</span> Fechar painel com <kbd>Ctrl+Shift+W</kbd>
+      </li>
+      <li>
+        <span class="bullet">·</span> Copy <kbd>Ctrl+Shift+C</kbd> · Paste
+        <kbd>Ctrl+Shift+V</kbd>
+      </li>
       <li><span class="bullet">·</span> 5 temas embutidos — troca ao vivo</li>
-      <li><span class="bullet">·</span> MIT licensed — lê o código, faz fork, contribui</li>
+      <li>
+        <span class="bullet">·</span> MIT licensed — lê o código, faz fork, contribui
+      </li>
     </ul>
   </div>
 </section>
@@ -67,8 +126,23 @@
 <section class="section" id="shortcuts">
   <div class="inner narrow">
     <h2 class="section-title">Referência de atalhos</h2>
-    <p class="section-sub">Aparece na tela de boas-vindas — sempre ao alcance.</p>
+    <p class="section-sub">
+      Aparece na tela de boas-vindas — sempre ao alcance.
+    </p>
     <KeyboardShortcuts />
+    <p class="shortcuts-note">
+      <svg
+        width="11"
+        height="11"
+        viewBox="0 0 88 88"
+        fill="currentColor"
+        aria-hidden="true"
+        ><path
+          d="M0 12.402l35.687-4.86.016 34.318-35.67.203zm35.67 33.529.028 34.344L.028 75.48.026 45.7zm4.326-38.691L87.314 0v41.527l-47.318.376zm47.329 39.26-.011 41.34-47.318-6.678-.066-34.739z"
+        /></svg
+      >
+      Atalhos para <strong>Windows</strong> · atalhos Linux &amp; macOS — em breve
+    </p>
   </div>
 </section>
 
@@ -79,17 +153,23 @@
     <div class="stack-row">
       <div class="stack-item">
         <span class="stack-name">Go 1.21+</span>
-        <span class="stack-note">backend — compilado, rápido, sem GC overhead perceptível</span>
+        <span class="stack-note"
+          >backend — compilado, rápido, sem GC overhead perceptível</span
+        >
       </div>
       <div class="stack-sep">+</div>
       <div class="stack-item">
         <span class="stack-name">Wails v2</span>
-        <span class="stack-note">bridge — empacota tudo num único .exe nativo</span>
+        <span class="stack-note"
+          >bridge — empacota tudo num único .exe nativo</span
+        >
       </div>
       <div class="stack-sep">+</div>
       <div class="stack-item">
         <span class="stack-name">Svelte 5</span>
-        <span class="stack-note">UI — compila para JS vanilla, zero framework runtime</span>
+        <span class="stack-note"
+          >UI — compila para JS vanilla, zero framework runtime</span
+        >
       </div>
     </div>
   </div>
@@ -100,21 +180,22 @@
   <div class="inner narrow cta-center">
     <pre class="mini-logo" aria-hidden="true">[ myTerm ]</pre>
     <p class="cta-tagline">Pronto para usar em 30 segundos.</p>
+    <p class="cta-soon">🐧 Linux &amp; macOS — builds em breve</p>
     <div class="cta-row">
       <a
         href="https://github.com/marcelomatz/myterm/releases"
         class="btn-primary"
         target="_blank"
-        rel="noopener"
-      >↓ Download .exe</a>
+        rel="noopener">↓ Download .exe</a
+      >
       <a
         href="https://github.com/marcelomatz/myterm"
         class="btn-ghost"
         target="_blank"
-        rel="noopener"
-      >Ver código →</a>
+        rel="noopener">Ver código →</a
+      >
     </div>
-    <p class="cta-meta">MIT · Windows · Go 1.21+ · Wails v2 · Svelte 5</p>
+    <p class="cta-meta">MIT · Windows (agora) · Linux &amp; macOS (em breve) · Go 1.21+ · Wails v2 · Svelte 5</p>
   </div>
 </section>
 
@@ -126,10 +207,18 @@
       <a href="#demo">Demo</a>
       <a href="#features">Features</a>
       <a href="#shortcuts">Atalhos</a>
-      <a href="https://github.com/marcelomatz/myterm" target="_blank" rel="noopener">GitHub</a>
+      <a
+        href="https://github.com/marcelomatz/myterm"
+        target="_blank"
+        rel="noopener">GitHub</a
+      >
     </nav>
     <span class="footer-by">
-      por <a href="https://github.com/marcelomatz" target="_blank" rel="noopener">@marcelomatz</a>
+      por <a
+        href="https://github.com/marcelomatz"
+        target="_blank"
+        rel="noopener">@marcelomatz</a
+      >
       · MIT · {new Date().getFullYear()}
     </span>
   </div>
@@ -149,7 +238,9 @@
     margin: 0 auto;
     max-width: 1060px;
   }
-  .inner.narrow { max-width: 700px; }
+  .inner.narrow {
+    max-width: 700px;
+  }
 
   /* ── Titulação ─────────────────────────────────────────────────────────── */
   .section-title {
@@ -190,12 +281,49 @@
     border: none;
   }
 
+  /* ── Platform badge ────────────────────────────────────────────────────── */
+  .platform-row {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    flex-wrap: wrap;
+    margin-bottom: 28px;
+  }
+  .platform-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 5px 14px;
+    font-size: 11.5px;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    border-radius: 3px;
+  }
+  .platform-badge.windows {
+    background: var(--accent);
+    color: var(--bg);
+  }
+  .platform-soon {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 5px 14px;
+    font-size: 11.5px;
+    color: var(--br-black);
+    letter-spacing: 0.05em;
+    border: 1px solid var(--dim);
+    border-radius: 3px;
+    opacity: 0.7;
+  }
+
   /* ── Extras list ───────────────────────────────────────────────────────── */
   .extras {
     list-style: none;
     display: flex;
     flex-wrap: wrap;
-    gap: 6px 32px;
+    gap: 6px 24px;
     margin-top: 32px;
     padding: 20px;
     border: 1px solid var(--dim);
@@ -208,13 +336,42 @@
     gap: 6px;
     letter-spacing: 0.02em;
   }
+  .extras kbd {
+    display: inline-block;
+    padding: 1px 6px;
+    border: 1px solid color-mix(in srgb, var(--br-black) 40%, transparent);
+    border-radius: 3px;
+    font-family: inherit;
+    font-size: 10.5px;
+    color: var(--cyan);
+    background: var(--dim);
+    margin: 0 1px;
+  }
   .bullet {
     color: var(--accent);
     font-weight: 700;
   }
 
+  /* ── Shortcuts note ────────────────────────────────────────────────────── */
+  .shortcuts-note {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    margin-top: 20px;
+    font-size: 11.5px;
+    color: var(--br-black);
+    opacity: 0.65;
+    letter-spacing: 0.04em;
+  }
+  .shortcuts-note svg {
+    flex-shrink: 0;
+  }
+
   /* ── Stack ─────────────────────────────────────────────────────────────── */
-  .stack-center { text-align: center; }
+  .stack-center {
+    text-align: center;
+  }
   .stack-row {
     display: flex;
     align-items: flex-start;
@@ -249,7 +406,9 @@
   }
 
   /* ── CTA ──────────────────────────────────────────────────────────────── */
-  .cta-center { text-align: center; }
+  .cta-center {
+    text-align: center;
+  }
   .mini-logo {
     font-family: inherit;
     font-size: clamp(18px, 3vw, 26px);
@@ -285,7 +444,9 @@
     text-decoration: none;
     text-transform: uppercase;
     border: 2px solid var(--accent);
-    transition: box-shadow 0.2s, transform 0.15s;
+    transition:
+      box-shadow 0.2s,
+      transform 0.15s;
   }
   .btn-primary:hover {
     box-shadow: 0 0 24px color-mix(in srgb, var(--accent) 50%, transparent);
@@ -305,7 +466,10 @@
     text-decoration: none;
     text-transform: uppercase;
     border: 2px solid color-mix(in srgb, var(--accent) 35%, transparent);
-    transition: border-color 0.2s, box-shadow 0.2s, transform 0.15s;
+    transition:
+      border-color 0.2s,
+      box-shadow 0.2s,
+      transform 0.15s;
   }
   .btn-ghost:hover {
     border-color: var(--accent);
@@ -317,6 +481,13 @@
     color: var(--br-black);
     letter-spacing: 0.08em;
     opacity: 0.6;
+  }
+  .cta-soon {
+    font-size: 12px;
+    color: var(--br-black);
+    letter-spacing: 0.05em;
+    margin-bottom: 20px;
+    opacity: 0.75;
   }
 
   /* ── Footer ────────────────────────────────────────────────────────────── */
@@ -353,7 +524,9 @@
     text-transform: uppercase;
     transition: color 0.15s;
   }
-  .footer-nav a:hover { color: var(--accent); }
+  .footer-nav a:hover {
+    color: var(--accent);
+  }
   .footer-by {
     font-size: 11px;
     color: var(--br-black);
@@ -363,5 +536,8 @@
     color: inherit;
     text-decoration: none;
   }
-  .footer-by a:hover { color: var(--accent); opacity: 1; }
+  .footer-by a:hover {
+    color: var(--accent);
+    opacity: 1;
+  }
 </style>
