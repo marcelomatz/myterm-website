@@ -18,6 +18,7 @@ const FALLBACK_URLS = {
 interface ReleaseAsset {
 	name: string;
 	browser_download_url: string;
+	size: number; // bytes
 }
 
 interface Release {
@@ -28,27 +29,45 @@ interface Release {
 	prerelease?: boolean;
 }
 
+/** Converte bytes para string legível (MB com 1 casa decimal) */
+function formatSize(bytes: number | null | undefined): string | null {
+	if (!bytes || bytes <= 0) return null;
+	if (bytes < 1024 * 1024) return `${(bytes / 1024).toFixed(0)} KB`;
+	return `${(bytes / (1024 * 1024)).toFixed(1)} MB`;
+}
+
 function extractUrls(data: Release) {
 	const a = data.assets;
-	const find = (pred: (n: string) => boolean) =>
-		a.find((x) => pred(x.name))?.browser_download_url ?? null;
+	const find = (pred: (n: string) => boolean) => a.find((x) => pred(x.name));
+
+	const installerAsset =
+		find((n) => n.includes('installer') && n.endsWith('.exe')) ?? null;
+	const windowsAsset =
+		find((n) => n.includes('windows') && n.endsWith('.exe') && !n.includes('installer')) ??
+		find((n) => n.endsWith('.exe') && !n.includes('installer')) ??
+		null;
+	const macosAsset = find((n) => n.includes('macos') && n.endsWith('.dmg')) ?? null;
+	const macosZipAsset = find((n) => n.includes('macos') && n.endsWith('.zip')) ?? null;
+	const linuxAsset = find((n) => n.includes('linux') && n.endsWith('.tar.gz')) ?? null;
 
 	return {
 		version: data.tag_name ?? FALLBACK_VERSION,
 		releasePageUrl: data.html_url ?? FALLBACK_URLS.releasePageUrl,
-		// Windows — instalador pode ser myterm-amd64-installer.exe ou myterm-windows-amd64-installer.exe
-		installerUrl:
-			find((n) => n.includes('installer') && n.endsWith('.exe')) ??
-			FALLBACK_URLS.installerUrl,
-		windowsUrl:
-			find((n) => n.includes('windows') && n.endsWith('.exe') && !n.includes('installer')) ??
-			FALLBACK_URLS.windowsUrl,
-		// macOS
-		macosUrl: find((n) => n.includes('macos') && n.endsWith('.dmg')) ?? FALLBACK_URLS.macosUrl,
-		macosZipUrl:
-			find((n) => n.includes('macos') && n.endsWith('.zip')) ?? FALLBACK_URLS.macosZipUrl,
-		// Linux
-		linuxUrl: find((n) => n.includes('linux') && n.endsWith('.tar.gz')) ?? FALLBACK_URLS.linuxUrl
+
+		installerUrl: installerAsset?.browser_download_url ?? FALLBACK_URLS.installerUrl,
+		installerSize: formatSize(installerAsset?.size),
+
+		windowsUrl: windowsAsset?.browser_download_url ?? FALLBACK_URLS.windowsUrl,
+		windowsSize: formatSize(windowsAsset?.size),
+
+		macosUrl: macosAsset?.browser_download_url ?? FALLBACK_URLS.macosUrl,
+		macosSize: formatSize(macosAsset?.size),
+
+		macosZipUrl: macosZipAsset?.browser_download_url ?? FALLBACK_URLS.macosZipUrl,
+		macosZipSize: formatSize(macosZipAsset?.size),
+
+		linuxUrl: linuxAsset?.browser_download_url ?? FALLBACK_URLS.linuxUrl,
+		linuxSize: formatSize(linuxAsset?.size)
 	};
 }
 
@@ -89,5 +108,13 @@ export const load: PageServerLoad = async ({ fetch, setHeaders }) => {
 
 	// Fallback final estático
 	console.warn('Usando URLs estáticas de fallback (v0.2.0)');
-	return { version: FALLBACK_VERSION, ...FALLBACK_URLS };
+	return {
+		version: FALLBACK_VERSION,
+		...FALLBACK_URLS,
+		installerSize: null,
+		windowsSize: null,
+		macosSize: null,
+		macosZipSize: null,
+		linuxSize: null
+	};
 };
