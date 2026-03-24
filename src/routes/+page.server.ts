@@ -1,12 +1,12 @@
 import type { PageServerLoad } from './$types';
 
-const FALLBACK_VERSION = 'v0.3.1';
+const FALLBACK_VERSION = 'v0.4.0';
 
 
 const GITHUB_REPO = 'marcelomatz/myterm';
 const BASE_RELEASE = `https://github.com/${GITHUB_REPO}/releases/download/${FALLBACK_VERSION}`;
 
-// Fallbacks estáticos para a v0.2.0 — usados quando a API não responder
+// Fallbacks estáticos — usados quando a API do GitHub não responder
 const FALLBACK_URLS = {
 	// Usa o exe portátil como fallback do instalador (o NSIS pode não estar em todas as releases)
 	installerUrl: `${BASE_RELEASE}/myterm-windows-amd64.exe`,
@@ -112,7 +112,7 @@ export const load: PageServerLoad = async ({ fetch, setHeaders }) => {
 	}
 
 	// Fallback final estático
-	console.warn('Usando URLs estáticas de fallback (v0.3.0)');
+	console.warn('Usando URLs estáticas de fallback (v0.4.0)');
 
 	return {
 		version: FALLBACK_VERSION,
