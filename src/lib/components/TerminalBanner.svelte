@@ -1,5 +1,5 @@
 <script lang="ts">
-  import DownloadCard from '$lib/components/DownloadCard.svelte';
+  import DownloadCard from "$lib/components/DownloadCard.svelte";
 
   interface Props {
     version?: string;
@@ -17,7 +17,7 @@
   }
 
   let {
-    version = 'v0.2.0',
+    version = "v0.2.0",
     releasePageUrl = null,
     installerUrl = null,
     installerSize = null,
@@ -31,7 +31,7 @@
     linuxSize = null,
   }: Props = $props();
 
-  const githubReleasesUrl = 'https://github.com/marcelomatz/myterm/releases';
+  const githubReleasesUrl = "https://github.com/marcelomatz/myterm/releases";
   const hasMacos = $derived(!!(macosUrl || macosZipUrl));
   const hasLinux = $derived(!!linuxUrl);
 </script>
@@ -47,14 +47,28 @@
  ╚═╝     ╚═╝   ╚═╝      ╚═╝   ╚══════╝╚═╝  ╚═╝╚═╝     ╚═╝</pre>
 
     <p class="version">{version} | Open Source</p>
-    <p class="tagline">Um terminal que respeita seu tempo.</p>
+    <p class="tagline">
+      Pronto para usar em 30 segundos. Gratuito e open source..
+    </p>
 
     <div class="metrics">
-      <span class="metric"><span class="metric-val">15 MB</span><span class="metric-lbl">binário</span></span>
+      <span class="metric"
+        ><span class="metric-val">15 MB</span><span class="metric-lbl"
+          >binário</span
+        ></span
+      >
       <span class="metric-sep">·</span>
-      <span class="metric"><span class="metric-val">&lt; 0.3s</span><span class="metric-lbl">startup</span></span>
+      <span class="metric"
+        ><span class="metric-val">&lt; 0.3s</span><span class="metric-lbl"
+          >startup</span
+        ></span
+      >
       <span class="metric-sep">·</span>
-      <span class="metric"><span class="metric-val">~ 40 MB</span><span class="metric-lbl">memória</span></span>
+      <span class="metric"
+        ><span class="metric-val">~ 40 MB</span><span class="metric-lbl"
+          >memória</span
+        ></span
+      >
     </div>
 
     <div class="downloads">
@@ -71,8 +85,10 @@
       <DownloadCard
         os="macos"
         version="11+ · Universal"
-        primaryLabel={hasMacos ? 'DMG Universal' : 'ver roadmap'}
-        primaryHref={hasMacos ? (macosUrl ?? macosZipUrl ?? githubReleasesUrl) : 'https://github.com/marcelomatz/myterm'}
+        primaryLabel={hasMacos ? "DMG Universal" : "ver roadmap"}
+        primaryHref={hasMacos
+          ? (macosUrl ?? macosZipUrl ?? githubReleasesUrl)
+          : "https://github.com/marcelomatz/myterm"}
         primarySize={macosSize}
         altLabel="App .zip"
         altHref={hasMacos ? (macosZipUrl ?? null) : null}
@@ -81,13 +97,20 @@
       <DownloadCard
         os="linux"
         version="amd64 · tar.gz"
-        primaryLabel={hasLinux ? 'TAR.GZ AMD64' : 'ver roadmap'}
-        primaryHref={hasLinux ? linuxUrl! : 'https://github.com/marcelomatz/myterm'}
+        primaryLabel={hasLinux ? "TAR.GZ AMD64" : "ver roadmap"}
+        primaryHref={hasLinux
+          ? linuxUrl!
+          : "https://github.com/marcelomatz/myterm"}
         primarySize={linuxSize}
       />
     </div>
 
-    <a href={githubReleasesUrl} class="all-releases" target="_blank" rel="noopener">todas as versões no GitHub →</a>
+    <a
+      href={githubReleasesUrl}
+      class="all-releases"
+      target="_blank"
+      rel="noopener">todas as versões no GitHub →</a
+    >
     <p class="scroll-hint" aria-hidden="true">scroll ↓</p>
   </div>
 </header>
@@ -127,7 +150,8 @@
     width: 100%;
   }
   .ansi-logo {
-    font-family: "Cascadia Code", "Fira Code", "JetBrains Mono", ui-monospace, monospace;
+    font-family: "Cascadia Code", "Fira Code", "JetBrains Mono", ui-monospace,
+      monospace;
     font-size: clamp(5px, 1.1vw, 11px);
     line-height: 1.2;
     color: var(--accent);
@@ -212,8 +236,13 @@
     animation: pulse 3s ease-in-out infinite;
   }
   @keyframes pulse {
-    0%, 100% { opacity: 0.35; }
-    50% { opacity: 0.7; }
+    0%,
+    100% {
+      opacity: 0.35;
+    }
+    50% {
+      opacity: 0.7;
+    }
   }
   @media (max-width: 600px) {
     .downloads {
