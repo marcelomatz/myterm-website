@@ -1,13 +1,15 @@
 import type { PageServerLoad } from './$types';
 
-const FALLBACK_VERSION = 'v0.2.0';
+const FALLBACK_VERSION = 'v0.3.0';
+
 const GITHUB_REPO = 'marcelomatz/myterm';
 const BASE_RELEASE = `https://github.com/${GITHUB_REPO}/releases/download/${FALLBACK_VERSION}`;
 
 // Fallbacks estáticos para a v0.2.0 — usados quando a API não responder
 const FALLBACK_URLS = {
-	// O asset do instalador NSIS gerado pelo Wails chama-se myterm-amd64-installer.exe
-	installerUrl: `${BASE_RELEASE}/myterm-amd64-installer.exe`,
+	// O asset do instalador NSIS gerado pelo Wails chama-se myterm-windows-amd64-installer.exe
+	installerUrl: `${BASE_RELEASE}/myterm-windows-amd64-installer.exe`,
+
 	windowsUrl: `${BASE_RELEASE}/myterm-windows-amd64.exe`,
 	macosUrl: `${BASE_RELEASE}/myterm-macos-universal.dmg`,
 	macosZipUrl: `${BASE_RELEASE}/myterm-macos-universal.zip`,
@@ -107,7 +109,8 @@ export const load: PageServerLoad = async ({ fetch, setHeaders }) => {
 	}
 
 	// Fallback final estático
-	console.warn('Usando URLs estáticas de fallback (v0.2.0)');
+	console.warn('Usando URLs estáticas de fallback (v0.3.0)');
+
 	return {
 		version: FALLBACK_VERSION,
 		...FALLBACK_URLS,
