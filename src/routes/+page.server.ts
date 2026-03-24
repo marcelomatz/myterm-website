@@ -1,6 +1,7 @@
 import type { PageServerLoad } from './$types';
 
-const FALLBACK_VERSION = 'v0.3.0';
+const FALLBACK_VERSION = 'v0.3.1';
+
 
 const GITHUB_REPO = 'marcelomatz/myterm';
 const BASE_RELEASE = `https://github.com/${GITHUB_REPO}/releases/download/${FALLBACK_VERSION}`;
